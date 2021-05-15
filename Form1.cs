@@ -26,13 +26,15 @@ namespace _2105Demo1
             //}
             string[] BandRate = { "9600", "115200", "230400", "2000000" };
             string[] DataBit = { "1", "2", "3", "4", "5", "6", "7", "8" };
-            string[] StopBit = { "None", "Odd", "Even", "Mark", "Space" };
+            string[] Parity = { "None", "Odd", "Even", "Mark", "Space" };
+            string[] StopBit = { "1", "1.5", "2" };
+
 
             comboBox1.Items.AddRange(System.IO.Ports.SerialPort.GetPortNames());
             comboBox2.Items.AddRange(BandRate);
             comboBox3.Items.AddRange(DataBit);
-            comboBox4.Items.AddRange(StopBit);
-
+            comboBox4.Items.AddRange(Parity);
+            comboBox5.Items.AddRange(StopBit);
 
             comboBox1.Text = "COM1";
             comboBox2.Text = "115200";
@@ -152,18 +154,72 @@ namespace _2105Demo1
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
+            //发送区
         }
 
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-
+            //接收区
         }
 
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //首先判断串口是否开启
+                if (serialPort1.IsOpen)
+                {
+                    //串口处于开启状态，将发送区文本发送
+                    serialPort1.Write(textBox1.Text);
+                }
+            }
+            catch (Exception ex)
+            {
+                //捕获到异常，创建一个新的对象，之前的不可以再用
+                serialPort1 = new System.IO.Ports.SerialPort();
+                //刷新COM口选项
+                comboBox1.Items.Clear();
+                comboBox1.Items.AddRange(System.IO.Ports.SerialPort.GetPortNames());
+                //响铃并显示异常给用户
+                System.Media.SystemSounds.Beep.Play();
+                button1.Text = "打开串口";
+                button1.BackColor = Color.ForestGreen;
+                MessageBox.Show(ex.Message);
+                comboBox1.Enabled = true;
+                comboBox2.Enabled = true;
+                comboBox3.Enabled = true;
+                comboBox4.Enabled = true;
+                comboBox5.Enabled = true;
+            }
+        }
+
+        //串口接收事件处理
+        private void SerialPort1_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
+        {
+            try
+            {
+                //因为要访问UI资源，所以需要使用invoke方式同步ui
+                this.Invoke((EventHandler)(delegate
+                {
+                    textBox2.AppendText(serialPort1.ReadExisting());
+                }
+                   )
+                );
+
+            }
+            catch (Exception ex)
+            {
+                //响铃并显示异常给用户
+                System.Media.SystemSounds.Beep.Play();
+                MessageBox.Show(ex.Message);
+
+            }
         }
     }
 }
