@@ -281,7 +281,7 @@ namespace _2105Demo1
             // radioButton1
             // 
             this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(16, 4);
+            this.radioButton1.Location = new System.Drawing.Point(6, 4);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(68, 19);
             this.radioButton1.TabIndex = 0;
@@ -303,7 +303,7 @@ namespace _2105Demo1
             // radioButton3
             // 
             this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(6, 4);
+            this.radioButton3.Location = new System.Drawing.Point(6, 3);
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(68, 19);
             this.radioButton3.TabIndex = 2;
