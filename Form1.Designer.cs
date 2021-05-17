@@ -377,6 +377,7 @@ namespace _2105Demo1
             this.label6.Size = new System.Drawing.Size(82, 15);
             this.label6.TabIndex = 0;
             this.label6.Text = "串口已关闭";
+            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // Form1
             // 

@@ -44,7 +44,7 @@ namespace _2105Demo1
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)  //`打开串口`按键
         {
             try
             {
@@ -63,6 +63,9 @@ namespace _2105Demo1
                     comboBox5.Enabled = true;
                     textBox2.Text = "";  //清空接收区
                     textBox1.Text = "";     //清空发送区
+
+                    label6.Text = "串口已关闭";
+                    label6.ForeColor = Color.Red;
                 }
                 else
                 {
@@ -97,6 +100,9 @@ namespace _2105Demo1
                     serialPort1.Open();     //打开串口
                     button1.Text = "关闭串口";
                     button1.BackColor = Color.Firebrick;
+
+                    label6.Text = "串口已打开";
+                    label6.ForeColor = Color.Green;
                 }
             }
             catch (Exception ex)
@@ -223,6 +229,11 @@ namespace _2105Demo1
         }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
         {
 
         }
