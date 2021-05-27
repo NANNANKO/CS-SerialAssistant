@@ -12,8 +12,11 @@ namespace _2105Demo1
 {
     public partial class Form1 : Form
     {
+        //全局变量声明
+
         private long receive_count = 0;
         private StringBuilder sb = new StringBuilder();     //为了避免在接收处理函数中反复调用，依然声明为一个全局变量
+        private DateTime current_time = new DateTime();    //为了避免在接收处理函数中反复调用，依然声明为一个全局变量
 
 
         public Form1()
@@ -220,8 +223,17 @@ namespace _2105Demo1
 
             sb.Clear();     //防止出错,首先清空字符串构造器
                             //遍历数组进行字符串转化及拼接
-            foreach (byte b in received_buf)
+            if (radioButton2.Checked)
             {
+                //选中HEX模式显示
+                foreach (byte b in received_buf)
+                {
+                    sb.Append(b.ToString("X2") + ' ');    //将byte型数据转化为2位16进制文本显示,用空格隔开
+                }
+            }
+            else
+            {
+                //选中ASCII模式显示
                 sb.Append(Encoding.ASCII.GetString(received_buf));  //将整个数组解码为ASCII数组
             }
 
@@ -230,10 +242,19 @@ namespace _2105Demo1
                 //因为要访问UI资源，所以需要使用invoke方式同步ui
                 this.Invoke((EventHandler)(delegate
                 {
-                    textBox2.AppendText(sb.ToString());
-                    
+                    if (checkBox1.Checked)
+                    {
+                        //显示时间
+                        current_time = System.DateTime.Now;     //获取当前时间
+                        textBox2.AppendText(current_time.ToString("HH:mm:ss") + "  " + sb.ToString());
 
-                    label8.Text = "Rx:" + receive_count.ToString() + "Bytes";
+                    }
+                    else
+                    {
+                        //不显示时间 
+                        textBox2.AppendText(sb.ToString());
+                    }
+                    label7.Text = "Rx:" + receive_count.ToString() + "Bytes";
                 }
                    )
                 );
@@ -264,6 +285,11 @@ namespace _2105Demo1
         }
 
         private void label8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
 
         }

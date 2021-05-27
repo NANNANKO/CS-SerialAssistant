@@ -238,6 +238,7 @@ namespace _2105Demo1
             this.radioButton2.TabStop = true;
             this.radioButton2.Text = "HEX";
             this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
             // radioButton1
             // 
