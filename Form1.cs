@@ -31,27 +31,29 @@ namespace _2105Demo1
             //{
             //    comboBox3.Items.Add(i.ToString());
             //}
-            string[] BandRate = { "9600", "74800", "115200", "230400", "2000000" };
-            string[] DataBit = { "1", "2", "3", "4", "5", "6", "7", "8" };
-            string[] Parity = { "None", "Odd", "Even", "Mark", "Space" };
-            string[] StopBit = { "1", "1.5", "2" };
+            string[] BandRate = { "9600", "74800", "115200", "230400", "2000000" }; //波特率字段
+            string[] DataBit = { "1", "2", "3", "4", "5", "6", "7", "8" };          //数据位字段
+            string[] Parity = { "None", "Odd", "Even", "Mark", "Space" };           //校验位字段
+            string[] StopBit = { "1", "1.5", "2" };                                 //停止位字段
 
 
-            comboBox1.Items.AddRange(System.IO.Ports.SerialPort.GetPortNames());
-            comboBox2.Items.AddRange(BandRate);
-            comboBox3.Items.AddRange(DataBit);
-            comboBox4.Items.AddRange(Parity);
-            comboBox5.Items.AddRange(StopBit);
+            comboBox1.Items.AddRange(System.IO.Ports.SerialPort.GetPortNames());    //将系统COM口获取添加入comboBox1里面
+            comboBox2.Items.AddRange(BandRate);                                     //将波特率字段添加入comboBox2里面
+            comboBox3.Items.AddRange(DataBit);                                      //将数据位字段添加入comboBox3里面
+            comboBox4.Items.AddRange(Parity);                                       //将校验位字段添加入comboBox4里面
+            comboBox5.Items.AddRange(StopBit);                                      //将停止位字段添加入comboBox5里面
 
-            comboBox1.Text = "COM1";
-            comboBox2.Text = "115200";
-            comboBox3.Text = "8";
-            comboBox4.Text = "None";
-            comboBox5.Text = "1";
+            comboBox1.Text = "COM1";                                                //默认选择COM1
+            comboBox2.Text = "9600";                                                //默认波特率9600
+            comboBox3.Text = "8";                                                   //默认数据位8位
+            comboBox4.Text = "None";                                                //默认无校验位
+            comboBox5.Text = "1";                                                   //默认停止位1位
+
+            button2.Enabled = false;                                                //发送按钮失能
 
         }
 
-        private void button1_Click(object sender, EventArgs e)  //`打开串口`按键
+        private void button1_Click(object sender, EventArgs e)                      //`打开串口`按键
         {
             try
             {
@@ -73,6 +75,9 @@ namespace _2105Demo1
 
                     label6.Text = "串口已关闭";
                     label6.ForeColor = Color.Red;
+
+                    button2.Enabled = false;                                          //发送按钮失能
+
                 }
                 else
                 {
@@ -110,6 +115,9 @@ namespace _2105Demo1
 
                     label6.Text = "串口已打开";
                     label6.ForeColor = Color.Green;
+
+                    button2.Enabled = true;                                             //发送按钮使能
+
                 }
             }
             catch (Exception ex)
@@ -292,6 +300,14 @@ namespace _2105Demo1
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            textBox2.Text = "";  //清空接收文本框
+            textBox1.Text = "";     //清空发送文本框
+            receive_count = 0;          //计数清零
+            label7.Text = "Rx:" + receive_count.ToString() + "Bytes";   //刷新界面
         }
     }
 }
