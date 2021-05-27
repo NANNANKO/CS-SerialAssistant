@@ -12,6 +12,10 @@ namespace _2105Demo1
 {
     public partial class Form1 : Form
     {
+        private long receive_count = 0;
+        private StringBuilder sb = new StringBuilder();     //为了避免在接收处理函数中反复调用，依然声明为一个全局变量
+
+
         public Form1()
         {
             InitializeComponent();
@@ -24,7 +28,7 @@ namespace _2105Demo1
             //{
             //    comboBox3.Items.Add(i.ToString());
             //}
-            string[] BandRate = { "9600", "115200", "230400", "2000000" };
+            string[] BandRate = { "9600", "74800", "115200", "230400", "2000000" };
             string[] DataBit = { "1", "2", "3", "4", "5", "6", "7", "8" };
             string[] Parity = { "None", "Odd", "Even", "Mark", "Space" };
             string[] StopBit = { "1", "1.5", "2" };
@@ -208,12 +212,28 @@ namespace _2105Demo1
         //串口接收事件处理
         private void SerialPort1_DataReceived(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
         {
+            int num = serialPort1.BytesToRead;
+            byte[] received_buf = new byte[num];
+
+            receive_count += num;
+            serialPort1.Read(received_buf,0,num);
+
+            sb.Clear();     //防止出错,首先清空字符串构造器
+                            //遍历数组进行字符串转化及拼接
+            foreach (byte b in received_buf)
+            {
+                sb.Append(Encoding.ASCII.GetString(received_buf));  //将整个数组解码为ASCII数组
+            }
+
             try
             {
                 //因为要访问UI资源，所以需要使用invoke方式同步ui
                 this.Invoke((EventHandler)(delegate
                 {
-                    textBox2.AppendText(serialPort1.ReadExisting());
+                    textBox2.AppendText(sb.ToString());
+                    
+
+                    label8.Text = "Rx:" + receive_count.ToString() + "Bytes";
                 }
                    )
                 );
@@ -234,6 +254,16 @@ namespace _2105Demo1
         }
 
         private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label8_Click(object sender, EventArgs e)
         {
 
         }
